@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MassRoute</string>
+    <string name="start_button_label">Find a Route</string>
+    <string name="main_screen_body">Welcome to MassRoute.\nTo begin searching for stop predictions along a Route, click the button below.</string>
+    <string name="main_stored_header">OR\n\nSelect from recent searches:</string>
+    <string name="route_list_label">Routes</string>
+    <string name="route_list_body">The following is a list of available routes:</string>
+    <string name="route_direction_label">Directions</string>
+    <string name="route_direction_body">Please choose from the following:</string>
+    <string name="direction_field_delimiter">:</string>
+    <string name="route_stop_body">Please select a stop for predictions on next arriving transit.</string>
+    <string name="predictions_body">The transit will arrive at the following predicted times:</string>
+    <string name="parser_routes_error">Could not retrieve routes available.\nPlease try again at a later time.</string>
+    <string name="search_hint">Search for route...</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_view_request">View</string>
+    <string name="menu_delete_request">Delete</string>
+</resources>

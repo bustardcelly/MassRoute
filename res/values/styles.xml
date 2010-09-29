@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="MassRouteTheme" parent="@android:style/Theme.Light">
+		 <item name="android:listPreferredItemHeight">40dip</item>
+	</style>
+	
+</resources>

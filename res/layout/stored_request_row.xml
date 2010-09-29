@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:minHeight="?android:attr/listPreferredItemHeight"
+	android:padding="6dip">
+	
+	<ImageView android:id="@+id/storedIcon" 
+		android:src="@drawable/bus_icon"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_marginRight="10dip" 
+		/>
+	
+	<TextView android:id="@+id/storedRouteTitle"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/storedIcon"
+		android:singleLine="true"
+		android:textStyle="bold"
+		/>
+	<TextView android:id="@+id/storedDirectionTitle"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/storedIcon"
+		android:layout_below="@id/storedRouteTitle"
+		android:singleLine="true"
+		/>
+	<TextView android:id="@+id/storedStopTitle"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/storedIcon"
+		android:layout_below="@id/storedDirectionTitle"
+		android:singleLine="true"
+		/>
+		
+</RelativeLayout>

@@ -1,0 +1,4 @@
+.DS_Store
+*.properties
+gen/
+bin/

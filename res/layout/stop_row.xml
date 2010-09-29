@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:minHeight="?android:attr/listPreferredItemHeight"
+	android:padding="6dip">
+	
+	<TextView android:id="@+id/stopTitle"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		/>
+		
+</RelativeLayout>
