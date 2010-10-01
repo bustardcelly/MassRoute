@@ -11,15 +11,22 @@ import com.custardbelly.massdot.parser.IRouteConfigParser;
 import com.custardbelly.massdot.parser.RouteConfigParser;
 import com.custardbelly.massdot.service.responder.IRoutesConfigServiceResponder;
 
-public class RouteConfigTask extends AsyncTask<URL, Integer, Long> 
+public class RouteConfigTask extends AsyncTask<URL, Integer, Long>  implements IQueueableTask
 {
 	private RouteConfig _routeConfig;
 	private String _errorMessage;
 	private WeakReference<IRoutesConfigServiceResponder> _responder;
+	private WeakReference<IQueueableTaskResponder> _queuedResponder;
 	
 	public RouteConfigTask( IRoutesConfigServiceResponder responder )
 	{
 		_responder = new WeakReference<IRoutesConfigServiceResponder>( responder );
+	}
+	
+	public RouteConfigTask( IRoutesConfigServiceResponder responder, IQueueableTaskResponder queuedResponder )
+	{
+		_responder = new WeakReference<IRoutesConfigServiceResponder>( responder );
+		_queuedResponder = new WeakReference<IQueueableTaskResponder>( queuedResponder );
 	}
 	
 	@Override
@@ -41,17 +48,24 @@ public class RouteConfigTask extends AsyncTask<URL, Integer, Long>
 	@Override
 	protected void onPostExecute( Long result )
 	{
-		IRoutesConfigServiceResponder serviceResponder = _responder.get();
+		final IRoutesConfigServiceResponder serviceResponder = getResponder();
+		final IQueueableTaskResponder taskResponder = getQueueableResponder();
 		if( _routeConfig != null )
 		{
 			serviceResponder.handleServiceResult( _routeConfig );
+			if( taskResponder != null ) taskResponder.handleQueueableTaskResult();
 		}
 		else
 		{
 			// TODO: pull default message from resource.
 			String message = ( _errorMessage != null ) ? _errorMessage : "Could not retrieve routes configuration.\nPlease try again at a later time."; 
 			serviceResponder.handleServiceFault( message );
+			if( taskResponder != null ) taskResponder.handleQueueableTaskFault();
 		}
+		_routeConfig = null;
+		_errorMessage = null;
+		_responder = null;
+		_queuedResponder = null;
 	}
 	
 	public IRoutesConfigServiceResponder getResponder()
@@ -61,5 +75,14 @@ public class RouteConfigTask extends AsyncTask<URL, Integer, Long>
 	public void setResponder( IRoutesConfigServiceResponder responder )
 	{
 		_responder = new WeakReference<IRoutesConfigServiceResponder>( responder );
+	}
+	
+	public IQueueableTaskResponder getQueueableResponder()
+	{
+		return _queuedResponder.get();
+	}
+	public void setQueuedResponder( IQueueableTaskResponder responder )
+	{
+		_queuedResponder = new WeakReference<IQueueableTaskResponder>( responder );
 	}
 }

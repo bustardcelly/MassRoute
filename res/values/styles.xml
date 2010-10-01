@@ -2,7 +2,7 @@
 <resources>
 
 	<style name="MassRouteTheme" parent="@android:style/Theme.Light">
-		 <item name="android:listPreferredItemHeight">40dip</item>
+		 <item name="android:listPreferredItemHeight">60dip</item>
 	</style>
 	
 </resources>

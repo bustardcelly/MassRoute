@@ -31,7 +31,8 @@ public class MassRouteServiceView extends ListActivity implements IMassRouteServ
 	{
 		super.onCreate( bundle );
 		
-		MassRouteServiceView.service = new MassRouteService();
+		if( MassRouteServiceView.service == null)
+			MassRouteServiceView.service = new MassRouteService( MassRouteServiceView.this );
 	}
 	
 	@Override

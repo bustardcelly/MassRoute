@@ -12,15 +12,22 @@ import com.custardbelly.massdot.parser.IRouteParser;
 import com.custardbelly.massdot.parser.RouteParser;
 import com.custardbelly.massdot.service.responder.IRoutesServiceResponder;
 
-public class RouteListTask extends AsyncTask<URL, Integer, Long> 
+public class RouteListTask extends AsyncTask<URL, Integer, Long> implements IQueueableTask
 {
 	private List<Route> _routes;
 	private String _errorMessage;
 	private WeakReference<IRoutesServiceResponder> _responder;
+	private WeakReference<IQueueableTaskResponder> _queuedResponder;
 	
 	public RouteListTask( IRoutesServiceResponder responder )
 	{
 		_responder = new WeakReference<IRoutesServiceResponder>( responder );
+	}
+	
+	public RouteListTask( IRoutesServiceResponder responder, IQueueableTaskResponder queuedResponder )
+	{
+		_responder = new WeakReference<IRoutesServiceResponder>( responder );
+		_queuedResponder = new WeakReference<IQueueableTaskResponder>( queuedResponder );
 	}
 	
 	@Override
@@ -41,19 +48,24 @@ public class RouteListTask extends AsyncTask<URL, Integer, Long>
 	@Override
 	protected void onPostExecute( Long result )
 	{
-		IRoutesServiceResponder serviceResponder = _responder.get();
+		final IRoutesServiceResponder serviceResponder = getResponder();
+		final IQueueableTaskResponder taskResponder = getQueueableResponder();
 		if( _routes != null )
 		{
 			serviceResponder.handleServiceResult( _routes );
+			if( taskResponder != null ) taskResponder.handleQueueableTaskResult();
 		}
 		else
 		{
 			// TODO: pull default message from resource.
 			String message = ( _errorMessage != null ) ? _errorMessage : "Could not retrieve routes available.\nPlease try again at a later time."; 
 			serviceResponder.handleServiceFault( message );
+			if( taskResponder != null ) taskResponder.handleQueueableTaskFault();
 		}
 		_routes = null;
 		_errorMessage = null;
+		_responder = null;
+		_queuedResponder = null;
 	}
 	
 	public IRoutesServiceResponder getResponder()
@@ -63,5 +75,14 @@ public class RouteListTask extends AsyncTask<URL, Integer, Long>
 	public void setResponder( IRoutesServiceResponder responder )
 	{
 		_responder = new WeakReference<IRoutesServiceResponder>( responder );
+	}
+	
+	public IQueueableTaskResponder getQueueableResponder()
+	{
+		return _queuedResponder.get();
+	}
+	public void setQueuedResponder( IQueueableTaskResponder responder )
+	{
+		_queuedResponder = new WeakReference<IQueueableTaskResponder>( responder );
 	}
 }

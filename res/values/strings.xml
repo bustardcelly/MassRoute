@@ -16,4 +16,5 @@
     <string name="menu_search">Search</string>
     <string name="menu_view_request">View</string>
     <string name="menu_delete_request">Delete</string>
+    <string name="delayed_request_alert">The next request will be made in {0} seconds.</string>
 </resources>
